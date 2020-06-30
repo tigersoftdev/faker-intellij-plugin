@@ -1,0 +1,34 @@
+<idea-plugin>
+  <id>pl.tigersoft.intellij.faker</id>
+  <name>Faker</name>
+  <version>1.0.0</version>
+  <idea-version since-build="171"/>
+  <vendor email="tigersoft.poland@gmail.com" url="http://tigersoft.pl">TigerSoft</vendor>
+
+  <description><![CDATA[
+      injected during build from description.html file
+    ]]></description>
+
+  <change-notes><![CDATA[
+        injected during build from changes.html file
+      ]]>
+  </change-notes>
+
+  <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.lang</depends>
+  <!--  <depends>com.intellij.modules.java</depends>-->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <actions>
+    <group id="Faker" text="Fake" description="Generate random word" popup="true"
+      class="pl.tigersoft.intellij.faker.actions.FakerActionGroup">
+      <add-to-group group-id="GenerateGroup" anchor="last"/>
+    </group>
+  </actions>
+
+</idea-plugin>

@@ -1,0 +1,83 @@
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '0.4.1'
+}
+
+group 'pl.tigersoft.intellij'
+version '1.0.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+def encoding = 'UTF-8'
+def vendor = 'TigerSoft'
+
+compileJava.options.encoding = encoding
+compileTestJava.options.encoding = encoding
+
+dependencies {
+    implementation("org.apache.commons:commons-lang3:${commonsLang3Version}")
+    implementation("com.github.javafaker:javafaker:${fakerVersion}")
+
+    testImplementation("org.assertj:assertj-core:${assertjCoreVersion}")
+    testImplementation("org.mockito:mockito-core:${mockitoVersion}")
+    testImplementation("org.mockito:mockito-junit-jupiter:${mockitoVersion}")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}")
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+}
+
+// See https://github.com/JetBrains/gradle-intellij-plugin/
+intellij {
+    version = ideaVersion
+    type = ideaType
+}
+patchPluginXml {
+    changeNotes "${file('changes.html').getText(encoding)}"
+    pluginDescription "${file('description.html').getText(encoding)}"
+            .replace("RELEASE_DATETIME", buildTime())
+}
+publishPlugin {
+    channels 'alpha'
+    token intellijPublishToken
+//    token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
+}
+
+// TODO - failing build if uncommented
+//jar {
+//    manifest {
+//        attributes(
+//                'Name': project.name,
+//                'Specification-Title': project.name,
+//                'Specification-Vendor': vendor,
+//                'Specification-Version': project.version,
+//                'Implementation-Title': project.name,
+//                'Implementation-Vendor': vendor,
+//                'Implementation-Version': getGitHash(),
+//                'Build-Date': buildTime()
+//        )
+//    }
+//}
+
+def static buildTime() {
+    def dateTime = LocalDateTime.now(ZoneId.of('UTC'));
+    def formatter = DateTimeFormatter.ofPattern('yyyyMMdd.HHmmss')
+    return dateTime.format(formatter)
+}
+
+def static getGitHash() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
