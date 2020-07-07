@@ -1,8 +1,6 @@
 <idea-plugin>
   <id>pl.tigersoft.intellij.faker</id>
   <name>Faker</name>
-  <version>1.0.0</version>
-  <idea-version since-build="171"/>
   <vendor email="tigersoft.poland@gmail.com" url="http://tigersoft.pl">TigerSoft</vendor>
 
   <description><![CDATA[
