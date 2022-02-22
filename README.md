@@ -3,7 +3,7 @@
 # Faker IntelliJ Plugin
 [![License](http://img.shields.io/:license-apache-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-This plugin enables to use [Java Faker](https://github.com/DiUS/java-faker) library directly from IntelliJ's GUI.
+This plugin enables to use [Data Faker](https://github.com/datafaker-net/datafaker) library directly from IntelliJ's GUI.
 
 ## TODO
 - Add fakers with parameters

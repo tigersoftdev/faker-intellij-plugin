@@ -19,7 +19,11 @@
   <!--  <depends>com.intellij.modules.java</depends>-->
 
   <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
+    <notificationGroup
+      id="FakerEvents"
+      displayType="BALLOON"
+      key="faker.notifications"
+    />
   </extensions>
 
   <actions>
