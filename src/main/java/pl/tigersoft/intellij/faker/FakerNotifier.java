@@ -1,31 +1,29 @@
 package pl.tigersoft.intellij.faker;
 
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationDisplayType;
-import com.intellij.notification.NotificationGroup;
+import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
+import com.intellij.openapi.project.Project;
 
 public class FakerNotifier {
 
-	private static final NotificationGroup NOTIFICATION_GROUP = new NotificationGroup("Faker Events",
-		NotificationDisplayType.BALLOON, true);
+  public static final String NOTIFICATION_GROUP = "FakerEvents";
 
-	public static Notification info(String content) {
-		return notify(content, NotificationType.INFORMATION);
-	}
+  public static void info(Project project, String content) {
+    notify(content, NotificationType.INFORMATION, project);
+  }
 
-	public static Notification warn(String content) {
-		return notify(content, NotificationType.WARNING);
-	}
+  public static void warn(Project project, String content) {
+    notify(content, NotificationType.WARNING, project);
+  }
 
-	public static Notification error(String content) {
-		return notify(content, NotificationType.ERROR);
-	}
+  public static void error(Project project, String content) {
+    notify(content, NotificationType.ERROR, project);
+  }
 
-	public static Notification notify(String content, NotificationType notificationType) {
-		final Notification notification = NOTIFICATION_GROUP.createNotification("Faker", null, content, notificationType);
-		notification.notify(null);
-		return notification;
-	}
-
+  public static void notify(String content, NotificationType notificationType, Project project) {
+    NotificationGroupManager.getInstance()
+      .getNotificationGroup(NOTIFICATION_GROUP)
+      .createNotification("Faker", content, notificationType)
+      .notify(project);
+  }
 }
