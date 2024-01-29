@@ -30,14 +30,16 @@ public class FakerActionGroup extends ActionGroup {
 
 	private static final List<String> excludedClasses = Arrays.asList("Options", "Number", "CreditCardType", "Faker");
 
+	private static final List<String> excludedMethods = Arrays.asList("wait", "notify", "notifyAll", "toString", "locality");
+
 	private static final Comparator<Method> methodComparator = (method1, method2) ->
     method1.getName().compareToIgnoreCase(method2.getName());
 
 	@NotNull
 	@Override
 	public AnAction[] getChildren(@Nullable AnActionEvent event) {
-		Faker faker = Faker.instance();
-		return Arrays.stream(faker.getClass().getDeclaredMethods())
+		Faker faker = new Faker();
+		return Arrays.stream(faker.getClass().getMethods())
 			.filter(categoryFilter())
 			.sorted(methodComparator)
 			.map(method -> buildActionGroup(method, faker))
@@ -119,7 +121,8 @@ public class FakerActionGroup extends ActionGroup {
 
 	private static Predicate<Method> categoryFilter() {
 		return subcategoryFilter()
-			.and(method -> !excludedClasses.contains(method.getReturnType().getSimpleName()));
+			.and(method -> !excludedClasses.contains(method.getReturnType().getSimpleName()))
+			.and(method -> !excludedMethods.contains(method.getName()));
 	}
 
 	private static Predicate<Method> subcategoryFilter() {
