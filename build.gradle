@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'pl.tigersoft.intellij'
-version '1.2.0'
+version '1.3.0'
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
@@ -54,9 +54,9 @@ publishPlugin {
 runPluginVerifier {
     ideVersions = [
         // https://data.services.jetbrains.com/products?code=DG%2CPS%2CDL%2CMPS%2CMPSIIP%2CRDCPPP%2CWS%2CAC%2CIIC%2CIIE%2CGO%2CCL%2CPCD%2CPCC%2CRD%2CPCE%2CIIU%2CRM%2CPCP&fields=code%2Cname%2Creleases.downloads%2Creleases.version%2Creleases.build%2Creleases.type
-        ideaVerifier_2020_1_1,
         ideaVerifier_2021_1_1,
-        ideaVerifier_2021_3_2,
+        ideaVerifier_2022_1_1,
+        ideaVerifier_2023_1_1,
     ]
     verifierPath = "pluginVerifierBin/verifier-all.jar"
 }
