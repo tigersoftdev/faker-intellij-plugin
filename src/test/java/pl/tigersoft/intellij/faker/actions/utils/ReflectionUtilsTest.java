@@ -16,10 +16,10 @@ class ReflectionUtilsTest {
     @Test
     void testValidateCategoryList() {
         List<Method> actualMethodList = ReflectionUtils.createCategoryList(Faker.class).collect(Collectors.toList());
-        List<String> actualNameList = actualMethodList.stream().map(Method::getName).collect(Collectors.toUnmodifiableList());
+        List<String> actualNameList = actualMethodList.stream().map(Method::getName).toList();
 
 
-        assertThat(actualMethodList).hasSize(238);
+        assertThat(actualMethodList).hasSize(259);
         assertThat(actualNameList).contains("backToTheFuture");
         assertThat(actualNameList.get(0)).isEqualTo("address");
         validateSortedByName(actualNameList);
@@ -28,7 +28,7 @@ class ReflectionUtilsTest {
     void testValidateSubCategoryList() {
         var faker = new Faker();
         List<Method> actualMethodList = ReflectionUtils.createSubcategoryList(faker.gameOfThrones().getClass()).collect(Collectors.toList());
-        List<String> actualNameList = actualMethodList.stream().map(Method::getName).collect(Collectors.toUnmodifiableList());
+        List<String> actualNameList = actualMethodList.stream().map(Method::getName).toList();
 
 
         assertThat(actualMethodList).hasSize(5);

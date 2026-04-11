@@ -79,9 +79,11 @@ public class FakerActionGroup extends ActionGroup {
             }
 
             void insertFakeText(Object fakeTextInput) {
+                final Editor editor = event.getData(CommonDataKeys.EDITOR);
+                final Project project = event.getData(CommonDataKeys.PROJECT);
+                if (editor == null || project == null) return;
+
                 String text = String.valueOf(fakeTextInput);
-                final Editor editor = event.getRequiredData(CommonDataKeys.EDITOR);
-                final Project project = event.getRequiredData(CommonDataKeys.PROJECT);
                 final Document document = editor.getDocument();
 
                 Caret primaryCaret = editor.getCaretModel().getPrimaryCaret();

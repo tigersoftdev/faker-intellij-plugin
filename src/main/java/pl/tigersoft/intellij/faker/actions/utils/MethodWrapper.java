@@ -34,7 +34,7 @@ public class MethodWrapper {
         if (method == null || object == null) {
             return Optional.empty();
         }
-        final Project project = event.getRequiredData(CommonDataKeys.PROJECT);
+        final Project project = event.getData(CommonDataKeys.PROJECT);
         try {
             return Optional.ofNullable(method.invoke(object));
         } catch (IllegalAccessException | InvocationTargetException e) {
