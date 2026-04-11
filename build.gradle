@@ -15,7 +15,9 @@ targetCompatibility = JavaVersion.VERSION_17
 repositories {
     mavenCentral()
 }
-
+test {
+    useJUnitPlatform()
+}
 def encoding = 'UTF-8'
 def vendor = 'TigerSoft'
 
