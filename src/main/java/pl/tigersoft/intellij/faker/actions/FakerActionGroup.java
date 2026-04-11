@@ -17,13 +17,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.tigersoft.intellij.faker.actions.utils.MethodWrapper;
 import pl.tigersoft.intellij.faker.actions.utils.ReflectionUtils;
+import pl.tigersoft.intellij.faker.settings.FakerSettings;
 
 public class FakerActionGroup extends ActionGroup {
 
     @NotNull
     @Override
     public AnAction[] getChildren(@Nullable AnActionEvent eventIgnore) {
-        Faker faker = new Faker();
+        Faker faker = new Faker(FakerSettings.getInstance().getLocale());
         return ReflectionUtils.createCategoryList(Faker.class)
                 .map(method -> UiHelper.buildRootActionGroup(method, faker))
                 .toArray(AnAction[]::new);

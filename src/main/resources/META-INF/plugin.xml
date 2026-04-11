@@ -24,6 +24,13 @@
       displayType="BALLOON"
       key="faker.notifications"
     />
+    <applicationService
+      serviceImplementation="pl.tigersoft.intellij.faker.settings.FakerSettings"/>
+    <applicationConfigurable
+      parentId="tools"
+      instance="pl.tigersoft.intellij.faker.settings.FakerConfigurable"
+      id="pl.tigersoft.intellij.faker.settings.FakerConfigurable"
+      displayName="Faker"/>
   </extensions>
 
   <actions>

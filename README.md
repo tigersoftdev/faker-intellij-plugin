@@ -7,7 +7,6 @@ This plugin enables to use [Data Faker](https://github.com/datafaker-net/datafak
 
 ## TODO
 - Add fakers with parameters
-- Change locale via settings
 
 ## License
 This code is free to use under the terms of the Apache 2 license.
