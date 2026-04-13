@@ -11,6 +11,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import net.datafaker.Faker;
 import org.jetbrains.annotations.NotNull;
@@ -55,8 +56,7 @@ public class FakerActionGroup extends ActionGroup {
 
                 @Override
                 public void actionPerformed(@NotNull AnActionEvent event) {
-                    wrapper.invokeMethodOnEvent(object, event).ifPresent(
-                            fakeText -> new UiUpdater(event).insertFakeText(fakeText));
+                    new UiUpdater(event).insertFakeTextAtAllCarets(wrapper, object);
                 }
 
                 @Override
@@ -79,21 +79,30 @@ public class FakerActionGroup extends ActionGroup {
                 this.event = event;
             }
 
-            void insertFakeText(Object fakeTextInput) {
+            void insertFakeTextAtAllCarets(MethodWrapper wrapper, Object object) {
                 final Editor editor = event.getData(CommonDataKeys.EDITOR);
                 final Project project = event.getData(CommonDataKeys.PROJECT);
                 if (editor == null || project == null) return;
 
-                String text = String.valueOf(fakeTextInput);
                 final Document document = editor.getDocument();
+                List<Caret> carets = editor.getCaretModel().getAllCarets();
 
-                Caret primaryCaret = editor.getCaretModel().getPrimaryCaret();
-                int start = primaryCaret.getSelectionStart();
-                int end = primaryCaret.getSelectionEnd();
+                WriteCommandAction.runWriteCommandAction(project, () -> {
+                    // Process carets in reverse order to preserve offsets
+                    for (int i = carets.size() - 1; i >= 0; i--) {
+                        Caret caret = carets.get(i);
+                        String text = wrapper.invokeMethodOnEvent(object, event)
+                                .map(String::valueOf)
+                                .orElse("");
+                        if (text.isEmpty()) continue;
 
-                WriteCommandAction.runWriteCommandAction(project, () -> document.replaceString(start, end, text));
-                primaryCaret.moveToOffset(start + text.length());
-                primaryCaret.removeSelection();
+                        int start = caret.getSelectionStart();
+                        int end = caret.getSelectionEnd();
+                        document.replaceString(start, end, text);
+                        caret.moveToOffset(start + text.length());
+                        caret.removeSelection();
+                    }
+                });
             }
         }
     }
